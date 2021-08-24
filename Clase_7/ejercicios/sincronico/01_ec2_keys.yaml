@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Creamos una llaves de seguridad clase7-claves
+    ec2_key:
+      name: clase7-claves
+    register: ec2_key_result
+  - name: Guardar archivo pem con claves
+    copy: content="{{ ec2_key_result.key.private_key}}" dest="./clase7-llaves.pem" mode=0600
+    when: ec2_key_result.changed
